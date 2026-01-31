@@ -6,6 +6,9 @@ try {
     if(!name || !email || !password || !role) {
         return res.status(400).json({message:"All fields required"})
     }
+    if(role !== "owner" || role !== "customer" || role !== "driver"){
+        return res.status(400).json({message: "Role must be owner or driver or customer"})
+    }
     const {data:existing,error:findError} = await supabase.from("users").select().eq("email",email).maybeSingle();
     if(findError){
         return res.status(500).json({message:findError.message})
