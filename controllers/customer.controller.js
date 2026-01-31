@@ -23,3 +23,24 @@ export const createTrip = async (req,res)=> {
         res.status(500).json({ message: error.message })
     }
 }
+
+export const getTripByTripId = async (req,res) => {
+    try {
+        const { tripId } = req.params;
+        const { data: existing, error: findError } = await supabase.from("trips").select().eq("id", tripId).maybeSingle();
+        if (findError) {
+            return res.status(500).json({ message: findError.message })
+        }
+        if (!existing) {
+            return res.status(404).json({ message: "trip not found" })
+        }
+        const { data, error } = await supabase.from("trips").select().eq("id", tripId);
+        if (error) {
+            res.status(500).json({ message: error.message })
+        }
+        res.status(200).json({ message: "Trip found", trip: data })
+
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}

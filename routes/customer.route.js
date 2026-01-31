@@ -1,6 +1,7 @@
 import express from "express";
-import { createTrip } from "../controllers/customer.controller.js";
+import { createTrip, getTripByTripId } from "../controllers/customer.controller.js";
 
 export const CustomerRouter = express.Router();
 
-CustomerRouter.post("/create",createTrip)
+CustomerRouter.post("/create",createTrip);
+CustomerRouter.get("/:tripId",getTripByTripId);
